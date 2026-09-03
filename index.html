@@ -1,343 +1,166 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Rolex Oyster Perpetual | Gerçek Katmanlı Ayrılma</title>
-  
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-      -webkit-user-select: none;
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08090b">
+<title>Saati Parçalarına Ayır</title>
+<style>
+:root{--bg:#08090b;--fg:#f5f5f2;--muted:#9da1a8;--line:#272a30}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}
+.hero{height:100svh;min-height:620px;display:grid;place-items:center;position:relative;padding:24px}
+.hero-copy{position:absolute;top:9vh;left:50%;transform:translateX(-50%);text-align:center;z-index:5;pointer-events:none}
+.eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:#aeb3ba;margin-bottom:12px}
+h1{font-size:clamp(30px,6vw,72px);line-height:.95;margin:0;font-weight:650;letter-spacing:-.045em}
+.hero-copy p{margin:14px auto 0;color:var(--muted);font-size:14px;max-width:430px}
+.scroll-hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);color:#aeb3ba;font-size:11px;letter-spacing:.14em;text-transform:uppercase;display:flex;gap:9px;align-items:center}
+.scroll-hint span{display:block;width:18px;height:30px;border:1px solid #666b72;border-radius:12px;position:relative}
+.scroll-hint span:after{content:"";position:absolute;left:50%;top:6px;width:3px;height:6px;border-radius:3px;background:#fff;transform:translateX(-50%);animation:wheel 1.6s infinite}
+@keyframes wheel{0%,100%{opacity:.2;transform:translate(-50%,0)}50%{opacity:1;transform:translate(-50%,7px)}}
 
-    body, html {
-      width: 100%;
-      height: 100%;
-      background-color: #0b1926;
-      color: #ffffff;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      overflow-x: hidden;
-      touch-action: pan-y;
-    }
-
-    /* 400vh Sanal Kaydırma Alanı */
-    #scrollContainer {
-      position: relative;
-      width: 100%;
-      height: 400vh;
-    }
-
-    /* Sabit Görünüm Sahnesi */
-    .viewport {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      background: radial-gradient(circle at 50% 35%, #5a9fd4 0%, #29608a 45%, #102942 75%, #07121d 100%);
-    }
-
-    .water-line {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 30vh;
-      background: linear-gradient(to bottom, rgba(41, 96, 138, 0.2) 0%, rgba(7, 18, 29, 0.95) 90%);
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    /* Üst Başlık */
-    .top-header {
-      position: absolute;
-      top: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      z-index: 100;
-      pointer-events: none;
-    }
-
-    .top-header h1 {
-      font-size: 13px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.95);
-      font-weight: 700;
-    }
-
-    .top-header p {
-      font-size: 9.5px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #38bdf8;
-      margin-top: 4px;
-      font-weight: 500;
-    }
-
-    /* SAAT SAHNESİ */
-    .watch-stage {
-      position: relative;
-      width: 320px;
-      height: 520px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 20;
-    }
-
-    /* GERÇEK PARÇA KATMANLARI */
-    .watch-part {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      pointer-events: none;
-      will-change: transform;
-      transform-origin: center center;
-      transform: translate3d(-50%, -50%, 0);
-      filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.55));
-      object-fit: contain;
-    }
-
-    /* Katman Genişlikleri ve Z-Index Sıralaması */
-    #part-kordon    { width: 270px; z-index: 10; }
-    #part-conta     { width: 235px; z-index: 20; }
-    #part-kasa      { width: 280px; z-index: 30; }
-    #part-mekanizma { width: 285px; z-index: 40; }
-    #part-kadran    { width: 245px; z-index: 50; }
-    #part-ibreler   { width: 215px; z-index: 60; }
-    #part-cam       { width: 255px; z-index: 70; }
-
-    /* Alt Durum Çubuğu */
-    .bottom-bar {
-      position: absolute;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 280px;
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .progress-track {
-      width: 100%;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      width: 0%;
-      height: 100%;
-      background: #38bdf8;
-      border-radius: 2px;
-    }
-
-    .status-text {
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.8);
-      font-weight: 600;
-    }
-
-    .scroll-hint {
-      position: absolute;
-      bottom: 65px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 9.5px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.85);
-      animation: pulse 1.6s infinite;
-      pointer-events: none;
-      z-index: 90;
-      transition: opacity 0.3s ease;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: translate(-50%, 0); opacity: 0.9; }
-      50% { transform: translate(-50%, 6px); opacity: 0.3; }
-    }
-  </style>
+.explode{height:440vh;position:relative}
+.sticky{height:100svh;min-height:620px;position:sticky;top:0;overflow:hidden;display:grid;place-items:center;background:radial-gradient(circle at 50% 47%,#181a1f 0,#0b0c0f 38%,#08090b 70%)}
+.stage{position:relative;width:min(88vw,760px);aspect-ratio:1/1;transform:translateZ(0)}
+.part{position:absolute;left:50%;top:50%;width:100%;height:100%;object-fit:contain;transform:translate(-50%,-50%);will-change:transform,opacity,filter}
+.part.bracelet{width:91%;height:91%;z-index:1}
+.part.case{width:72%;height:72%;z-index:3}
+.part.gasket{width:67%;height:67%;z-index:4}
+.part.dial{width:70%;height:70%;z-index:5}
+.part.hands{width:58%;height:58%;z-index:7}
+.part.movement{width:55%;height:55%;z-index:2}
+.part.crystal{width:76%;height:76%;z-index:8}
+.part-ring{position:absolute;inset:14%;border:1px solid rgba(255,255,255,.09);border-radius:50%;z-index:0;box-shadow:0 0 70px rgba(255,255,255,.035)}
+.copy{position:absolute;left:clamp(18px,6vw,72px);bottom:clamp(34px,8vh,80px);z-index:20;max-width:360px}
+.step{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#8f949b}
+.copy h2{font-size:clamp(25px,4vw,44px);letter-spacing:-.04em;margin:8px 0}
+.copy p{color:#aeb2b8;line-height:1.55;font-size:14px;margin:0}
+.progress{position:fixed;right:20px;top:50%;transform:translateY(-50%);width:2px;height:110px;background:#25282e;z-index:50}
+.progress i{display:block;width:100%;height:0;background:#fff;transition:height .08s linear}
+.legend{position:absolute;right:clamp(18px,6vw,72px);bottom:clamp(34px,8vh,80px);z-index:20;text-align:right;display:grid;gap:7px;font-size:10px;color:#72777e;letter-spacing:.08em;text-transform:uppercase}
+.legend b{color:#c9ccd1;font-weight:500}
+.end{min-height:80svh;display:grid;place-items:center;text-align:center;padding:80px 24px;background:#08090b}
+.end h2{font-size:clamp(30px,6vw,68px);letter-spacing:-.05em;margin:0 0 16px}
+.end p{color:var(--muted);max-width:520px;line-height:1.6;margin:auto}
+.cta{display:inline-flex;margin-top:28px;padding:12px 17px;border:1px solid #383c43;border-radius:999px;color:#fff;text-decoration:none;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+@media (max-width:700px){
+  .hero-copy{top:7vh}.hero-copy p{font-size:13px}
+  .stage{width:112vw}
+  .copy{bottom:30px;max-width:280px}
+  .legend{display:none}
+  .progress{right:12px;height:82px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}.scroll-hint span:after{animation:none}
+}
+</style>
 </head>
 <body>
-
-  <div class="viewport">
-    <div class="water-line"></div>
-
-    <div class="top-header">
-      <h1>Rolex Oyster Perpetual</h1>
-      <p id="stateSubtitle">BİRLEŞİK MONTAJLI SAAT</p>
-    </div>
-
-    <!-- 7 AYRI GERÇEK PARÇA KATMANI -->
-    <div class="watch-stage" id="watchStage">
-      
-      <!-- 1. KORDON (En Altta) -->
-      <img id="part-kordon" class="watch-part" 
-           src="kordon.png" 
-           onerror="if(!this.dataset.r){this.dataset.r=1;this.src='1000068042.png';}" 
-           alt="Paslanmaz Çelik Kordon">
-
-      <!-- 2. SU GEÇİRMEZ CONTA -->
-      <img id="part-conta" class="watch-part" 
-           src="conta.png" 
-           onerror="if(!this.dataset.r){this.dataset.r=1;this.src='1000068044.png';}" 
-           alt="Su Geçirmez Conta">
-
-      <!-- 3. OYSTER KASA -->
-      <img id="part-kasa" class="watch-part" 
-           src="kasa.png" 
-           onerror="if(!this.dataset.r){this.dataset.r=1;this.src='1000068039.png';}" 
-           alt="Oyster Kasa">
-
-      <!-- 4. KALİBRE MEKANİZMA -->
-      <img id="part-mekanizma" class="watch-part" 
-           src="mekanizma.png" 
-           onerror="if(!this.dataset.r){this.dataset.r=1;this.src='1000068045.png';}" 
-           alt="Kalibre Mekanizma">
-
-      <!-- 5. KADRAN -->
-      <img id="part-kadran" class="watch-part" 
-           src="kadran.png" 
-           onerror="if(!this.dataset.r){this.dataset.r=1;this.src='1000068038.png';}" 
-           alt="Özel Kadran">
-
-      <!-- 6. İBRELER -->
-      <img id="part-ibreler" class="watch-part" 
-           src="ibreler.png" 
-           onerror="if(!this.dataset.r){this.dataset.r=1;this.src='1000068040.png';}" 
-           alt="Akrep ve Yelkovan">
-
-      <!-- 7. SAFİR KRİSTAL CAM (En Üstte) -->
-      <img id="part-cam" class="watch-part" 
-           src="cam.png" 
-           onerror="if(!this.dataset.r){this.dataset.r=1;this.src='1000068037.png';}" 
-           alt="Safir Kristal Cam">
-
-    </div>
-
-    <div class="scroll-hint" id="scrollHint">
-      Aşağı Kaydırın ↓
-    </div>
-
-    <div class="bottom-bar">
-      <div class="progress-track">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
-      <span class="status-text" id="statusText">BİRLEŞİK (%0)</span>
-    </div>
-
+<section class="hero">
+  <div class="hero-copy">
+    <div class="eyebrow">Interactive watch anatomy</div>
+    <h1>Bir saat.<br>Yedi parça.</h1>
+    <p>Parmağını aşağı doğru kaydır. Saat, katman katman açılarak parçalarına ayrılacak.</p>
   </div>
+  <div class="scroll-hint"><span></span> Kaydır</div>
+</section>
 
-  <div id="scrollContainer"></div>
+<section class="explode" id="exploder">
+  <div class="sticky">
+    <div class="stage" id="stage">
+      <div class="part-ring"></div>
+      <img class="part bracelet" data-name="Bilezik" src="assets/bracelet.png" alt="Çelik bilezik">
+      <img class="part movement" data-name="Mekanizma" src="assets/movement.png" alt="Saat mekanizması">
+      <img class="part case" data-name="Kasa" src="assets/case.png" alt="Saat kasası">
+      <img class="part gasket" data-name="Conta" src="assets/gasket.png" alt="Conta">
+      <img class="part dial" data-name="Kadran" src="assets/dial.png" alt="Saat kadranı">
+      <img class="part hands" data-name="Akrep yelkovan saniye" src="assets/hands.png" alt="Akrep, yelkovan ve saniye kolu">
+      <img class="part crystal" data-name="Safir cam" src="assets/crystal.png" alt="Safir cam">
+    </div>
+    <div class="copy">
+      <div class="step" id="step">01 / 07</div>
+      <h2 id="title">Tamamen monte</h2>
+      <p id="desc">Başlangıçta tüm parçalar tek bir saat gibi üst üste oturur. Kaydırdıkça her katman kendi yerine doğru açılır.</p>
+    </div>
+    <div class="legend" id="legend">
+      <span><b>Safir cam</b></span>
+      <span>Kadran</span><span>Akrep · Yelkovan · Saniye</span>
+      <span>Kasa</span><span>Conta</span><span>Mekanizma</span><span>Bilezik</span>
+    </div>
+  </div>
+  <div class="progress"><i id="bar"></i></div>
+</section>
 
-  <script>
-    // -------------------------------------------------------------
-    // FİZİKSEL 3D AYRILMA MOTORU (60 / 120 FPS PÜRÜZSÜZ LERP)
-    // -------------------------------------------------------------
-    const parts = [
-      { el: document.getElementById('part-cam'),       initY: -15, explodeY: -225, initScale: 0.95, explodeScale: 1.02 },
-      { el: document.getElementById('part-ibreler'),   initY: -5,  explodeY: -140, initScale: 0.95, explodeScale: 1.01 },
-      { el: document.getElementById('part-kadran'),    initY: 0,   explodeY: -65,  initScale: 0.95, explodeScale: 1.00 },
-      { el: document.getElementById('part-mekanizma'), initY: 10,  explodeY: 15,   initScale: 0.95, explodeScale: 1.00 },
-      { el: document.getElementById('part-kasa'),      initY: 15,  explodeY: 100,  initScale: 0.98, explodeScale: 0.99 },
-      { el: document.getElementById('part-conta'),     initY: 25,  explodeY: 180,  initScale: 0.95, explodeScale: 0.98 },
-      { el: document.getElementById('part-kordon'),    initY: 30,  explodeY: 260,  initScale: 0.98, explodeScale: 0.97 }
-    ];
+<section class="end">
+  <div>
+    <div class="eyebrow">Exploded view complete</div>
+    <h2>Saatin içi artık görünür.</h2>
+    <p>Bu sayfa, gönderdiğin orijinal görselleri katmanlar halinde kullanır. Masaüstünde tekerlek, telefonda parmak kaydırması ile animasyonu kontrol edebilirsin.</p>
+    <a class="cta" href="#exploder">Tekrar incele</a>
+  </div>
+</section>
 
-    const progressFill  = document.getElementById('progressFill');
-    const statusText    = document.getElementById('statusText');
-    const stateSubtitle = document.getElementById('stateSubtitle');
-    const scrollHint    = document.getElementById('scrollHint');
+<script>
+const section=document.querySelector('#exploder');
+const parts=[...document.querySelectorAll('.part')];
+const bar=document.querySelector('#bar');
+const step=document.querySelector('#step');
+const title=document.querySelector('#title');
+const desc=document.querySelector('#desc');
 
-    let currentP = 0;
-    let targetP = 0;
+const info=[
+  ['01 / 07','Tamamen monte','Tüm katmanlar aynı merkezde. Bu, saatin bilekteki son halini temsil eder.'],
+  ['02 / 07','Safir cam ayrılıyor','İlk olarak üstteki koruyucu cam yukarı doğru uzaklaşır.'],
+  ['03 / 07','Kadran açılıyor','Kadran ve ibreler birbirinden ayrılarak mekanizmanın önünü açar.'],
+  ['04 / 07','Kasa ortaya çıkıyor','Dış çelik kasa sabit kalırken iç katmanlar aralanır.'],
+  ['05 / 07','Conta','İnce conta halkası, su ve toz yalıtımındaki rolünü göstermek için ayrı bir katmana dönüşür.'],
+  ['06 / 07','Mekanizma','Saatin kalbi olan mekanizma aşağı doğru çekilir ve kurma kolu görünür hale gelir.'],
+  ['07 / 07','Bilezik','Son katmanda çelik bilezik dışarı açılır; bütün parçalar artık ayrı ayrı okunabilir.']
+];
 
-    // Yerel kaydırma miktarını hesapla
-    function updateScrollProgress() {
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      if (maxScroll > 0) {
-        targetP = Math.max(0, Math.min(1, window.scrollY / maxScroll));
-      }
-    }
+function clamp(v,a=0,b=1){return Math.max(a,Math.min(b,v))}
+function update(){
+  const r=section.getBoundingClientRect();
+  const max=section.offsetHeight-innerHeight;
+  const p=clamp(-r.top/max);
+  bar.style.height=(p*100)+'%';
 
-    window.addEventListener('scroll', updateScrollProgress, { passive: true });
-    window.addEventListener('resize', updateScrollProgress, { passive: true });
+  // Smooth, scroll-driven exploded arrangement.
+  const spread=Math.pow(p,0.82);
+  const moves={
+    bracelet:[0, 185, -12, 1.02],
+    movement:[0, 105, 7, .98],
+    case:[0, 28, 0, 1],
+    gasket:[0, 12, 0, 1],
+    dial:[0, -10, 0, 1],
+    hands:[0, -42, 0, 1],
+    crystal:[0, -88, 0, 1]
+  };
 
-    // Mobil ve masaüstü doğrudan dokunmatik sürükleme desteği
-    let isDragging = false;
-    let startY = 0;
-    let startScroll = 0;
+  parts.forEach(el=>{
+    const key=el.classList[1];
+    const m=moves[key];
+    const y=m[1]*spread;
+    let x=0, z=0, scale=m[3];
+    if(key==='bracelet'){x= -18*spread; scale=1-.02*spread}
+    if(key==='movement'){x= 10*spread; scale=1+.015*spread}
+    if(key==='case'){x= 3*spread}
+    if(key==='gasket'){x= -2*spread}
+    if(key==='dial'){x= 2*spread}
+    if(key==='hands'){x= -4*spread}
+    if(key==='crystal'){x= 5*spread; scale=1+.015*spread}
+    el.style.transform=`translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(${scale})`;
+    el.style.filter=`drop-shadow(0 ${3+16*spread}px ${8+18*spread}px rgba(0,0,0,${.35+.2*spread}))`;
+  });
 
-    window.addEventListener('touchstart', (e) => {
-      startY = e.touches[0].clientY;
-      startScroll = window.scrollY;
-    }, { passive: true });
-
-    window.addEventListener('touchmove', (e) => {
-      const delta = (startY - e.touches[0].clientY) * 2;
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      window.scrollTo(0, Math.max(0, Math.min(maxScroll, startScroll + delta)));
-    }, { passive: true });
-
-    // Render Döngüsü
-    function render() {
-      requestAnimationFrame(render);
-
-      // Pürüzsüz takip (LERP)
-      currentP += (targetP - currentP) * 0.09;
-      const p = currentP;
-
-      // Doğal yaylanma eğrisi
-      const ease = p * p * (3 - 2 * p);
-
-      // Parçaları dikey eksende milimetrik olarak ayır
-      parts.forEach(part => {
-        const y = part.initY + (part.explodeY - part.initY) * ease;
-        const scale = part.initScale + (part.explodeScale - part.initScale) * ease;
-        part.el.style.transform = `translate3d(-50%, calc(-50% + ${y}px), 0) scale(${scale})`;
-      });
-
-      const pct = Math.round(p * 100);
-      progressFill.style.width = pct + '%';
-
-      scrollHint.style.opacity = p > 0.05 ? '0' : '1';
-
-      if (p < 0.15) {
-        statusText.textContent = `BİRLEŞİK (%${pct})`;
-        statusText.style.color = '#10b981';
-        stateSubtitle.textContent = 'BİRLEŞİK MONTAJLI SAAT';
-      } else if (p > 0.8) {
-        statusText.textContent = `KATMANLAR AYRILDI (%${pct})`;
-        statusText.style.color = '#38bdf8';
-        stateSubtitle.textContent = 'KATMANLARINA AYRILMIŞ ANATOMİ';
-      } else {
-        statusText.textContent = `AYRIŞIYOR (%${pct})`;
-        statusText.style.color = '#f59e0b';
-        stateSubtitle.textContent = 'MEKANİK KATMAN AYRILMASI';
-      }
-    }
-
-    updateScrollProgress();
-    render();
-  </script>
+  const idx=Math.min(info.length-1,Math.floor(p*info.length*1.00001));
+  [step,title,desc].forEach((el,i)=>el.textContent=info[idx][i]);
+}
+let ticking=false;
+function onScroll(){if(!ticking){requestAnimationFrame(()=>{update();ticking=false});ticking=true}}
+addEventListener('scroll',onScroll,{passive:true});
+addEventListener('resize',update);
+update();
+</script>
 </body>
 </html>
