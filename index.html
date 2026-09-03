@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Rolex Oyster Perpetual | Gerçek Katmanlı Ayrılma</title>
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      background-color: #0b1926;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      overflow-x: hidden;
+      touch-action: pan-y;
+    }
+
+    /* 400vh Sanal Kaydırma Alanı */
+    #scrollContainer {
+      position: relative;
+      width: 100%;
+      height: 400vh;
+    }
+
+    /* Sabit Görünüm Sahnesi */
+    .viewport {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 30%, #76baf2 0%, #3e81b6 40%, #153754 75%, #0b1926 100%);
+    }
+
+    .water-line {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 32vh;
+      background: linear-gradient(to bottom, rgba(54, 115, 161, 0.25) 0%, rgba(11, 25, 38, 0.95) 90%);
+      border-top: 1px solid rgba(255, 255, 255, 0.25);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Minimalist Üst Başlık */
+    .top-header {
+      position: absolute;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    .top-header h1 {
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.95);
+      font-weight: 700;
+    }
+
+    .top-header p {
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #38bdf8;
+      margin-top: 3px;
+    }
+
+    /* SAAT SAHNESİ: EKRANIN TAM ORTASINDA */
+    .watch-stage {
+      position: relative;
+      width: 320px;
+      height: 520px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 20;
+    }
+
+    /* GERÇEK PARÇA KATMANLARI (HER BİRİ BAĞIMSIZ PNG) */
+    .watch-part {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      pointer-events: none;
+      will-change: transform;
+      transform-origin: center center;
+    }
+
+    /* Katman Boyutları ve Derinlik Sıralaması */
+    #part-kordon    { width: 260px; z-index: 10; }
+    #part-conta     { width: 230px; z-index: 20; }
+    #part-kasa      { width: 270px; z-index: 30; }
+    #part-mekanizma { width: 280px; z-index: 40; }
+    #part-kadran    { width: 240px; z-index: 50; }
+    #part-ibreler   { width: 210px; z-index: 60; }
+    #part-cam       { width: 250px; z-index: 70; }
+
+    /* Alt Durum Barı */
+    .bottom-bar {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 280px;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: #38bdf8;
+      border-radius: 2px;
+    }
+
+    .status-text {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 65px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 9.5px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.7);
+      animation: pulse 1.5s infinite;
+      pointer-events: none;
+      z-index: 90;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translate(-50%, 0); opacity: 0.8; }
+      50% { transform: translate(-50%, 6px); opacity: 0.3; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="viewport">
+    <div class="water-line"></div>
+
+    <div class="top-header">
+      <h1>Rolex Oyster Perpetual</h1>
+      <p id="stateSubtitle">BİRLEŞİK MONTAJLI SAAT</p>
+    </div>
+
+    <!-- 7 AYRI GERÇEK ŞEFFAF PARÇA KATMANI -->
+    <div class="watch-stage" id="watchStage">
+      
+      <!-- 1. KORDON (En Altta) -->
+      <img id="part-kordon" class="watch-part" src="kordon.png" alt="Paslanmaz Çelik Kordon">
+
+      <!-- 2. SU GEÇİRMEZ CONTA -->
+      <img id="part-conta" class="watch-part" src="conta.png" alt="Su Geçirmez Conta">
+
+      <!-- 3. KASA -->
+      <img id="part-kasa" class="watch-part" src="kasa.png" alt="Oyster Kasa">
+
+      <!-- 4. MEKANİZMA -->
+      <img id="part-mekanizma" class="watch-part" src="mekanizma.png" alt="Kalibre Mekanizma">
+
+      <!-- 5. KADRAN -->
+      <img id="part-kadran" class="watch-part" src="kadran.png" alt="Celebration Kadran">
+
+      <!-- 6. İBRELER -->
+      <img id="part-ibreler" class="watch-part" src="ibreler.png" alt="Akrep ve Yelkovan">
+
+      <!-- 7. SAFİR CAM (En Üstte) -->
+      <img id="part-cam" class="watch-part" src="cam.png" alt="Safir Kristal Cam">
+
+    </div>
+
+    <div class="scroll-hint" id="scrollHint">
+      Aşağı Kaydırın ↓
+    </div>
+
+    <div class="bottom-bar">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <span class="status-text" id="statusText">BİRLEŞİK (%0)</span>
+    </div>
+
+  </div>
+
+  <div id="scrollContainer"></div>
+
+  <script>
+    // -------------------------------------------------------------
+    // GERÇEK PARÇALARI FİZİKSEL OLARAK AYIRAN 60/120 FPS MOTOR
+    // -------------------------------------------------------------
+    const parts = [
+      { el: document.getElementById('part-cam'),       initY: -15, explodeY: -220, initScale: 0.95, explodeScale: 1 },
+      { el: document.getElementById('part-ibreler'),   initY: -5,  explodeY: -130, initScale: 0.95, explodeScale: 1 },
+      { el: document.getElementById('part-kadran'),    initY: 0,   explodeY: -65,  initScale: 0.95, explodeScale: 1 },
+      { el: document.getElementById('part-mekanizma'), initY: 10,  explodeY: 15,   initScale: 0.95, explodeScale: 1 },
+      { el: document.getElementById('part-kasa'),      initY: 15,  explodeY: 95,   initScale: 0.98, explodeScale: 1 },
+      { el: document.getElementById('part-conta'),     initY: 25,  explodeY: 175,  initScale: 0.95, explodeScale: 1 },
+      { el: document.getElementById('part-kordon'),    initY: 30,  explodeY: 245,  initScale: 0.98, explodeScale: 1 }
+    ];
+
+    const progressFill = document.getElementById('progressFill');
+    const statusText = document.getElementById('statusText');
+    const stateSubtitle = document.getElementById('stateSubtitle');
+    const scrollHint = document.getElementById('scrollHint');
+
+    let currentP = 0;
+    let targetP = 0;
+
+    // Mouse Tekerleği
+    window.addEventListener('wheel', (e) => {
+      targetP += e.deltaY * 0.0007;
+      targetP = Math.max(0, Math.min(1, targetP));
+    }, { passive: true });
+
+    // Sayfa Kaydırması
+    window.addEventListener('scroll', () => {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      if (maxScroll > 0) {
+        targetP = Math.max(0, Math.min(1, window.scrollY / maxScroll));
+      }
+    }, { passive: true });
+
+    // Mobil Dokunmatik Kaydırma (Touch Swipe)
+    let touchStartY = 0;
+    window.addEventListener('touchstart', (e) => {
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      const touchY = e.touches[0].clientY;
+      const deltaY = touchStartY - touchY;
+      touchStartY = touchY;
+      targetP += deltaY * 0.0024;
+      targetP = Math.max(0, Math.min(1, targetP));
+    }, { passive: true });
+
+    // Render Döngüsü (Pürüzsüz 60 FPS)
+    function render() {
+      requestAnimationFrame(render);
+
+      currentP += (targetP - currentP) * 0.12;
+      const p = currentP;
+
+      // Doğal yaylanma eğrisi
+      const ease = p * p * (3 - 2 * p);
+
+      // Her parçayı kendi milimetrik ekseninde havada ayır
+      parts.forEach(part => {
+        const y = part.initY + (part.explodeY - part.initY) * ease;
+        const scale = part.initScale + (part.explodeScale - part.initScale) * ease;
+        part.el.style.transform = `translate3d(-50%, calc(-50% + ${y}px), 0) scale(${scale})`;
+      });
+
+      const pct = Math.round(p * 100);
+      progressFill.style.width = pct + '%';
+
+      if (p > 0.05) {
+        scrollHint.style.opacity = '0';
+      } else {
+        scrollHint.style.opacity = '1';
+      }
+
+      if (p < 0.15) {
+        statusText.textContent = `BİRLEŞİK (%${pct})`;
+        statusText.style.color = '#10b981';
+        stateSubtitle.textContent = 'BİRLEŞİK MONTAJLI SAAT';
+      } else if (p > 0.8) {
+        statusText.textContent = `KATMANLAR AYRILDI (%${pct})`;
+        statusText.style.color = '#38bdf8';
+        stateSubtitle.textContent = 'KATMANLARINA AYRILMIŞ ANATOMİ';
+      } else {
+        statusText.textContent = `AYRIŞIYOR (%${pct})`;
+        statusText.style.color = '#f59e0b';
+        stateSubtitle.textContent = 'MEKANİK KATMAN AYRILMASI';
+      }
+    }
+
+    render();
+  </script>
+</body>
+</html>
