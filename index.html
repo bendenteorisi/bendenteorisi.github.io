@@ -70,7 +70,7 @@
     }
 
     .top-header h1 {
-      font-size: 11px;
+      font-size: 13px;
       letter-spacing: 0.3em;
       text-transform: uppercase;
       color: rgba(255, 255, 255, 0.95);
@@ -78,42 +78,71 @@
     }
 
     .top-header p {
-      font-size: 9px;
-      letter-spacing: 0.15em;
+      font-size: 9.5px;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       color: #38bdf8;
-      margin-top: 3px;
+      margin-top: 4px;
+      font-weight: 500;
     }
 
-    /* SAAT SAHNESİ: EKRANIN TAM ORTASINDA */
+    /* SAAT SAHNESİ */
     .watch-stage {
       position: relative;
       width: 320px;
-      height: 520px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      height: 500px;
       z-index: 20;
     }
 
-    /* GERÇEK PARÇA KATMANLARI (HER BİRİ BAĞIMSIZ PNG) */
+    /* KATMAN ELEMANLARI */
     .watch-part {
       position: absolute;
       left: 50%;
       top: 50%;
+      width: 320px;
+      height: 500px;
+      margin-left: -160px;
+      margin-top: -250px;
       pointer-events: none;
       will-change: transform;
       transform-origin: center center;
     }
 
-    /* Katman Boyutları ve Derinlik Sıralaması */
-    #part-kordon    { width: 260px; z-index: 10; }
-    #part-conta     { width: 230px; z-index: 20; }
-    #part-kasa      { width: 270px; z-index: 30; }
-    #part-mekanizma { width: 280px; z-index: 40; }
-    #part-kadran    { width: 240px; z-index: 50; }
-    #part-ibreler   { width: 210px; z-index: 60; }
-    #part-cam       { width: 250px; z-index: 70; }
+    .watch-part svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.45));
+    }
+
+    /* Katman Etiketleri (Ayrılınca Görünür) */
+    .part-tag {
+      position: absolute;
+      right: -35px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(11, 25, 38, 0.75);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 8.5px;
+      letter-spacing: 0.15em;
+      color: #e0f2fe;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      backdrop-filter: blur(4px);
+      pointer-events: none;
+    }
+
+    /* Katman Derinlik Sıralaması */
+    #part-kordon    { z-index: 10; }
+    #part-conta     { z-index: 20; }
+    #part-kasa      { z-index: 30; }
+    #part-mekanizma { z-index: 40; }
+    #part-kadran    { z-index: 50; }
+    #part-ibreler   { z-index: 60; }
+    #part-cam       { z-index: 70; }
 
     /* Alt Durum Barı */
     .bottom-bar {
@@ -142,6 +171,7 @@
       height: 100%;
       background: #38bdf8;
       border-radius: 2px;
+      transition: width 0.05s linear;
     }
 
     .status-text {
@@ -149,6 +179,7 @@
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: rgba(255, 255, 255, 0.75);
+      font-weight: 600;
     }
 
     .scroll-hint {
@@ -159,14 +190,15 @@
       font-size: 9.5px;
       letter-spacing: 0.25em;
       text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.7);
-      animation: pulse 1.5s infinite;
+      color: rgba(255, 255, 255, 0.85);
+      animation: pulse 1.6s infinite;
       pointer-events: none;
       z-index: 90;
+      transition: opacity 0.3s ease;
     }
 
     @keyframes pulse {
-      0%, 100% { transform: translate(-50%, 0); opacity: 0.8; }
+      0%, 100% { transform: translate(-50%, 0); opacity: 0.9; }
       50% { transform: translate(-50%, 6px); opacity: 0.3; }
     }
   </style>
@@ -181,29 +213,213 @@
       <p id="stateSubtitle">BİRLEŞİK MONTAJLI SAAT</p>
     </div>
 
-    <!-- 7 AYRI GERÇEK ŞEFFAF PARÇA KATMANI -->
+    <!-- 7 KATMANLI ANATOMİK SAHNE -->
     <div class="watch-stage" id="watchStage">
       
-      <!-- 1. KORDON (En Altta) -->
-      <img id="part-kordon" class="watch-part" src="kordon.png" alt="Paslanmaz Çelik Kordon">
+      <!-- 1. PASLANMAZ ÇELİK KORDON -->
+      <div id="part-kordon" class="watch-part">
+        <div class="part-tag">OYSTER BİLEZİK</div>
+        <svg viewBox="0 0 320 500">
+          <defs>
+            <linearGradient id="steelGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#94a3b8"/>
+              <stop offset="25%" stop-color="#cbd5e1"/>
+              <stop offset="50%" stop-color="#f8fafc"/>
+              <stop offset="75%" stop-color="#94a3b8"/>
+              <stop offset="100%" stop-color="#64748b"/>
+            </linearGradient>
+            <linearGradient id="centerLinkGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#cbd5e1"/>
+              <stop offset="50%" stop-color="#ffffff"/>
+              <stop offset="100%" stop-color="#94a3b8"/>
+            </linearGradient>
+          </defs>
+          <!-- Üst Kordon Baklaları -->
+          <g>
+            <path d="M102 30 L218 30 L226 172 L94 172 Z" fill="url(#steelGrad)" stroke="#475569" stroke-width="1.2"/>
+            <rect x="128" y="30" width="64" height="142" fill="url(#centerLinkGrad)" stroke="#475569" stroke-width="1"/>
+            <line x1="97" y1="65" x2="223" y2="65" stroke="#334155" stroke-width="1.5"/>
+            <line x1="95" y1="100" x2="225" y2="100" stroke="#334155" stroke-width="1.5"/>
+            <line x1="94" y1="135" x2="226" y2="135" stroke="#334155" stroke-width="1.5"/>
+          </g>
+          <!-- Alt Kordon Baklaları -->
+          <g>
+            <path d="M94 328 L226 328 L218 470 L102 470 Z" fill="url(#steelGrad)" stroke="#475569" stroke-width="1.2"/>
+            <rect x="128" y="328" width="64" height="142" fill="url(#centerLinkGrad)" stroke="#475569" stroke-width="1"/>
+            <line x1="94" y1="365" x2="226" y2="365" stroke="#334155" stroke-width="1.5"/>
+            <line x1="95" y1="400" x2="225" y2="400" stroke="#334155" stroke-width="1.5"/>
+            <line x1="97" y1="435" x2="223" y2="435" stroke="#334155" stroke-width="1.5"/>
+          </g>
+        </svg>
+      </div>
 
       <!-- 2. SU GEÇİRMEZ CONTA -->
-      <img id="part-conta" class="watch-part" src="conta.png" alt="Su Geçirmez Conta">
+      <div id="part-conta" class="watch-part">
+        <div class="part-tag">SU GEÇİRMEZ CONTA</div>
+        <svg viewBox="0 0 320 500">
+          <circle cx="160" cy="250" r="82" fill="none" stroke="#09090b" stroke-width="6" opacity="0.95"/>
+          <circle cx="160" cy="250" r="84.5" fill="none" stroke="#27272a" stroke-width="1" opacity="0.6"/>
+          <circle cx="160" cy="250" r="79.5" fill="none" stroke="#000000" stroke-width="1"/>
+        </svg>
+      </div>
 
-      <!-- 3. KASA -->
-      <img id="part-kasa" class="watch-part" src="kasa.png" alt="Oyster Kasa">
+      <!-- 3. OYSTER KASA & BEZEL -->
+      <div id="part-kasa" class="watch-part">
+        <div class="part-tag">OYSTER KASA</div>
+        <svg viewBox="0 0 320 500">
+          <defs>
+            <linearGradient id="caseSteel" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#f1f5f9"/>
+              <stop offset="30%" stop-color="#94a3b8"/>
+              <stop offset="70%" stop-color="#e2e8f0"/>
+              <stop offset="100%" stop-color="#64748b"/>
+            </linearGradient>
+            <linearGradient id="bezelGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#cbd5e1"/>
+              <stop offset="45%" stop-color="#ffffff"/>
+              <stop offset="70%" stop-color="#94a3b8"/>
+              <stop offset="100%" stop-color="#475569"/>
+            </linearGradient>
+          </defs>
+          <!-- Kasa Boynuzları (Lugs) ve Gövdesi -->
+          <path d="M 100 162 C 125 155, 195 155, 220 162 C 228 178, 252 215, 252 250 C 252 285, 228 322, 220 338 C 195 345, 125 345, 100 338 C 92 322, 68 285, 68 250 C 68 215, 92 178, 100 162 Z" 
+                fill="url(#caseSteel)" stroke="#475569" stroke-width="1.5"/>
+          <!-- Ayar Tepesi (Crown) -->
+          <path d="M 252 240 L 265 242 L 265 258 L 252 260 Z" fill="url(#bezelGrad)" stroke="#334155" stroke-width="1"/>
+          <!-- Parlak Dış Bezel Halkası -->
+          <circle cx="160" cy="250" r="91" fill="none" stroke="url(#bezelGrad)" stroke-width="10"/>
+          <circle cx="160" cy="250" r="86" fill="none" stroke="#334155" stroke-width="1"/>
+        </svg>
+      </div>
 
-      <!-- 4. MEKANİZMA -->
-      <img id="part-mekanizma" class="watch-part" src="mekanizma.png" alt="Kalibre Mekanizma">
+      <!-- 4. KALİBRE MEKANİZMA -->
+      <div id="part-mekanizma" class="watch-part">
+        <div class="part-tag">KALİBRE 3230</div>
+        <svg viewBox="0 0 320 500">
+          <defs>
+            <linearGradient id="mechBase" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#94a3b8"/>
+              <stop offset="50%" stop-color="#cbd5e1"/>
+              <stop offset="100%" stop-color="#64748b"/>
+            </linearGradient>
+            <linearGradient id="goldGear" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#d97706"/>
+              <stop offset="50%" stop-color="#fbbf24"/>
+              <stop offset="100%" stop-color="#b45309"/>
+            </linearGradient>
+          </defs>
+          <!-- Mekanizma Ana Plakası -->
+          <circle cx="160" cy="250" r="77" fill="url(#mechBase)" stroke="#475569" stroke-width="1.5"/>
+          <!-- Pirinç Çarklar & Balans Yayı -->
+          <circle cx="132" cy="275" r="22" fill="none" stroke="url(#goldGear)" stroke-width="3.5" stroke-dasharray="2 1.5"/>
+          <circle cx="180" cy="270" r="16" fill="none" stroke="url(#goldGear)" stroke-width="3" stroke-dasharray="1.5 1"/>
+          <circle cx="150" cy="225" r="18" fill="none" stroke="url(#goldGear)" stroke-width="2.5"/>
+          <!-- Yakut Taşlar (Jewels) -->
+          <circle cx="132" cy="275" r="3.5" fill="#e11d48" stroke="#ffffff" stroke-width="0.8"/>
+          <circle cx="180" cy="270" r="3" fill="#e11d48" stroke="#ffffff" stroke-width="0.8"/>
+          <circle cx="150" cy="225" r="3" fill="#e11d48" stroke="#ffffff" stroke-width="0.8"/>
+          <!-- Otomatik Kurma Rotoru (Perpetual Rotor) -->
+          <path d="M 160 250 L 90 230 A 74 74 0 0 0 230 230 Z" fill="#e2e8f0" stroke="#475569" stroke-width="1.2" opacity="0.92"/>
+          <text x="160" y="288" font-size="6.5" font-weight="700" fill="#334155" text-anchor="middle" letter-spacing="1">ROLEX GENEVE</text>
+        </svg>
+      </div>
 
-      <!-- 5. KADRAN -->
-      <img id="part-kadran" class="watch-part" src="kadran.png" alt="Celebration Kadran">
+      <!-- 5. CELEBRATION KADRAN -->
+      <div id="part-kadran" class="watch-part">
+        <div class="part-tag">CELEBRATION KADRAN</div>
+        <svg viewBox="0 0 320 500">
+          <defs>
+            <radialGradient id="dialBase" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#38bdf8"/>
+              <stop offset="85%" stop-color="#0284c7"/>
+              <stop offset="100%" stop-color="#0369a1"/>
+            </radialGradient>
+          </defs>
+          <!-- Turkuaz Kadran Tabanı -->
+          <circle cx="160" cy="250" r="77" fill="url(#dialBase)" stroke="#1e293b" stroke-width="1"/>
+          
+          <!-- Celebration Baloncukları (Motif Dots) -->
+          <g stroke="#0f172a" stroke-width="1.2">
+            <circle cx="160" cy="285" r="14" fill="#f43f5e"/>
+            <circle cx="136" cy="278" r="11" fill="#facc15"/>
+            <circle cx="184" cy="280" r="12" fill="#22c55e"/>
+            <circle cx="145" cy="302" r="10" fill="#ec4899"/>
+            <circle cx="174" cy="304" r="9" fill="#3b82f6"/>
+            <circle cx="120" cy="265" r="7" fill="#f97316"/>
+            <circle cx="198" cy="266" r="8" fill="#facc15"/>
+            <circle cx="132" cy="296" r="6" fill="#22c55e"/>
+            <circle cx="188" cy="296" r="6" fill="#f43f5e"/>
+            <circle cx="160" cy="308" r="5" fill="#facc15"/>
+          </g>
 
-      <!-- 6. İBRELER -->
-      <img id="part-ibreler" class="watch-part" src="ibreler.png" alt="Akrep ve Yelkovan">
+          <!-- Rolex Tacı (12 Yönünde) -->
+          <path d="M 155 192 L 157 197 L 160 191 L 163 197 L 165 192 L 164 200 L 156 200 Z" fill="#ffffff" stroke="#94a3b8" stroke-width="0.5"/>
+          
+          <!-- Saat İndeksleri (Baton Markers) -->
+          <g fill="#ffffff" stroke="#94a3b8" stroke-width="0.8">
+            <!-- 3, 6, 9 Çift Baton -->
+            <rect x="220" y="247" width="10" height="3"/>
+            <rect x="220" y="251" width="10" height="3"/>
+            <rect x="157" y="311" width="3" height="10"/>
+            <rect x="161" y="311" width="3" height="10"/>
+            <rect x="90" y="247" width="10" height="3"/>
+            <rect x="90" y="251" width="10" height="3"/>
+            <!-- Tekli Batonlar -->
+            <rect x="206" y="210" width="9" height="3.5" transform="rotate(30 210 212)"/>
+            <rect x="206" y="286" width="9" height="3.5" transform="rotate(-30 210 288)"/>
+            <rect x="105" y="210" width="9" height="3.5" transform="rotate(-30 109 212)"/>
+            <rect x="105" y="286" width="9" height="3.5" transform="rotate(30 109 288)"/>
+            <rect x="180" y="184" width="3.5" height="9" transform="rotate(30 182 188)"/>
+            <rect x="136" y="184" width="3.5" height="9" transform="rotate(-30 138 188)"/>
+          </g>
 
-      <!-- 7. SAFİR CAM (En Üstte) -->
-      <img id="part-cam" class="watch-part" src="cam.png" alt="Safir Kristal Cam">
+          <!-- Kadran Yazıları -->
+          <text x="160" y="210" font-size="6.5" font-weight="800" fill="#ffffff" text-anchor="middle" letter-spacing="1">ROLEX</text>
+          <text x="160" y="218" font-size="4" font-weight="600" fill="#e0f2fe" text-anchor="middle" letter-spacing="0.5">OYSTER PERPETUAL</text>
+        </svg>
+      </div>
+
+      <!-- 6. İBRELER (AKREP, YELKOVAN, SANİYE) -->
+      <div id="part-ibreler" class="watch-part">
+        <div class="part-tag">İBRELER</div>
+        <svg viewBox="0 0 320 500">
+          <!-- Akrep (Saat 10 Yönü) -->
+          <g transform="rotate(-65 160 250)">
+            <rect x="157" y="206" width="6" height="44" rx="2" fill="#ffffff" stroke="#475569" stroke-width="1.2"/>
+            <rect x="158.5" y="210" width="3" height="34" fill="#67e8f9"/>
+          </g>
+          <!-- Yelkovan (Saat 2 Yönü) -->
+          <g transform="rotate(58 160 250)">
+            <rect x="157.5" y="190" width="5" height="60" rx="2" fill="#ffffff" stroke="#475569" stroke-width="1.2"/>
+            <rect x="159" y="194" width="2" height="50" fill="#67e8f9"/>
+          </g>
+          <!-- Saniye İbresi -->
+          <g transform="rotate(210 160 250)">
+            <line x1="160" y1="182" x2="160" y2="265" stroke="#f8fafc" stroke-width="1"/>
+            <circle cx="160" cy="200" r="2.5" fill="#f8fafc"/>
+          </g>
+          <!-- Merkez Pimi -->
+          <circle cx="160" cy="250" r="4.5" fill="#cbd5e1" stroke="#334155" stroke-width="1.5"/>
+          <circle cx="160" cy="250" r="1.5" fill="#0f172a"/>
+        </svg>
+      </div>
+
+      <!-- 7. SAFİR KRİSTAL CAM -->
+      <div id="part-cam" class="watch-part">
+        <div class="part-tag">SAFİR CAM</div>
+        <svg viewBox="0 0 320 500">
+          <defs>
+            <linearGradient id="glassReflection" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.4"/>
+              <stop offset="30%" stop-color="#ffffff" stop-opacity="0.08"/>
+              <stop offset="65%" stop-color="#38bdf8" stop-opacity="0.12"/>
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0.25"/>
+            </linearGradient>
+          </defs>
+          <circle cx="160" cy="250" r="78" fill="url(#glassReflection)" stroke="rgba(255, 255, 255, 0.45)" stroke-width="1.5"/>
+          <ellipse cx="138" cy="225" rx="35" ry="18" fill="#ffffff" opacity="0.15" transform="rotate(-30 138 225)"/>
+        </svg>
+      </div>
 
     </div>
 
@@ -224,80 +440,70 @@
 
   <script>
     // -------------------------------------------------------------
-    // GERÇEK PARÇALARI FİZİKSEL OLARAK AYIRAN 60/120 FPS MOTOR
+    // FİZİKSEL AYRILMA MOTORU (60 / 120 FPS PÜRÜZSÜZ LERP)
     // -------------------------------------------------------------
     const parts = [
-      { el: document.getElementById('part-cam'),       initY: -15, explodeY: -220, initScale: 0.95, explodeScale: 1 },
-      { el: document.getElementById('part-ibreler'),   initY: -5,  explodeY: -130, initScale: 0.95, explodeScale: 1 },
-      { el: document.getElementById('part-kadran'),    initY: 0,   explodeY: -65,  initScale: 0.95, explodeScale: 1 },
-      { el: document.getElementById('part-mekanizma'), initY: 10,  explodeY: 15,   initScale: 0.95, explodeScale: 1 },
-      { el: document.getElementById('part-kasa'),      initY: 15,  explodeY: 95,   initScale: 0.98, explodeScale: 1 },
-      { el: document.getElementById('part-conta'),     initY: 25,  explodeY: 175,  initScale: 0.95, explodeScale: 1 },
-      { el: document.getElementById('part-kordon'),    initY: 30,  explodeY: 245,  initScale: 0.98, explodeScale: 1 }
+      { el: document.getElementById('part-cam'),       initY: 0, explodeY: -210, initScale: 1, explodeScale: 1.04 },
+      { el: document.getElementById('part-ibreler'),   initY: 0, explodeY: -140, initScale: 1, explodeScale: 1.02 },
+      { el: document.getElementById('part-kadran'),    initY: 0, explodeY: -70,  initScale: 1, explodeScale: 1.01 },
+      { el: document.getElementById('part-mekanizma'), initY: 0, explodeY: 0,    initScale: 1, explodeScale: 1.00 },
+      { el: document.getElementById('part-kasa'),      initY: 0, explodeY: 70,   initScale: 1, explodeScale: 0.99 },
+      { el: document.getElementById('part-conta'),     initY: 0, explodeY: 140,  initScale: 1, explodeScale: 0.98 },
+      { el: document.getElementById('part-kordon'),    initY: 0, explodeY: 210,  initScale: 1, explodeScale: 0.97 }
     ];
 
-    const progressFill = document.getElementById('progressFill');
-    const statusText = document.getElementById('statusText');
+    const progressFill  = document.getElementById('progressFill');
+    const statusText    = document.getElementById('statusText');
     const stateSubtitle = document.getElementById('stateSubtitle');
-    const scrollHint = document.getElementById('scrollHint');
+    const scrollHint    = document.getElementById('scrollHint');
+    const partTags      = document.querySelectorAll('.part-tag');
 
     let currentP = 0;
     let targetP = 0;
 
-    // Mouse Tekerleği
-    window.addEventListener('wheel', (e) => {
-      targetP += e.deltaY * 0.0007;
-      targetP = Math.max(0, Math.min(1, targetP));
-    }, { passive: true });
-
-    // Sayfa Kaydırması
-    window.addEventListener('scroll', () => {
+    // Tarayıcının yerel kaydırma miktarını baz alan net hesaplama
+    function updateProgress() {
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       if (maxScroll > 0) {
         targetP = Math.max(0, Math.min(1, window.scrollY / maxScroll));
       }
-    }, { passive: true });
+    }
 
-    // Mobil Dokunmatik Kaydırma (Touch Swipe)
-    let touchStartY = 0;
-    window.addEventListener('touchstart', (e) => {
-      touchStartY = e.touches[0].clientY;
-    }, { passive: true });
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress, { passive: true });
 
-    window.addEventListener('touchmove', (e) => {
-      const touchY = e.touches[0].clientY;
-      const deltaY = touchStartY - touchY;
-      touchStartY = touchY;
-      targetP += deltaY * 0.0024;
-      targetP = Math.max(0, Math.min(1, targetP));
-    }, { passive: true });
-
-    // Render Döngüsü (Pürüzsüz 60 FPS)
+    // Animasyon Döngüsü
     function render() {
       requestAnimationFrame(render);
 
-      currentP += (targetP - currentP) * 0.12;
+      // Yumuşak geçiş (LERP)
+      currentP += (targetP - currentP) * 0.09;
       const p = currentP;
 
-      // Doğal yaylanma eğrisi
+      // Pürüzsüz yaylanma eğrisi (Smooth easeInOut)
       const ease = p * p * (3 - 2 * p);
 
-      // Her parçayı kendi milimetrik ekseninde havada ayır
+      // Her parçayı kendi dikey ekseninde konumlandır
       parts.forEach(part => {
         const y = part.initY + (part.explodeY - part.initY) * ease;
         const scale = part.initScale + (part.explodeScale - part.initScale) * ease;
-        part.el.style.transform = `translate3d(-50%, calc(-50% + ${y}px), 0) scale(${scale})`;
+        part.el.style.transform = `translate3d(0, ${y}px, 0) scale(${scale})`;
       });
 
+      // İlerleme yüzdesi
       const pct = Math.round(p * 100);
       progressFill.style.width = pct + '%';
 
-      if (p > 0.05) {
-        scrollHint.style.opacity = '0';
-      } else {
-        scrollHint.style.opacity = '1';
-      }
+      // Ayrılma derecesine göre etiketlerin görünürlüğü
+      const tagOpacity = Math.max(0, (p - 0.25) / 0.4);
+      partTags.forEach(tag => {
+        tag.style.opacity = tagOpacity;
+      });
 
+      // İpucu yazısının sönmesi
+      scrollHint.style.opacity = p > 0.06 ? '0' : '1';
+
+      // Durum bildirim metinleri
       if (p < 0.15) {
         statusText.textContent = `BİRLEŞİK (%${pct})`;
         statusText.style.color = '#10b981';
@@ -313,6 +519,8 @@
       }
     }
 
+    // İlk kareyi başlat
+    updateProgress();
     render();
   </script>
 </body>
